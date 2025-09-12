@@ -1,19 +1,30 @@
 $list_to_sort: bob anna sylvain john ludo colin patrick;
 
+// helper: remove element at a given index
+@function list-remove($list, $index) {
+  $result: ();
+  @for $i from 1 through length($list) {
+    @if $i != $index {
+      $result: append($result, nth($list, $i), comma);
+    }
+  }
+  @return $result;
+}
+
 @function sort-list($list) {
-  $sorted-list: (); // Initialize an empty list
+  $sorted-list: ();
 
   @while length($list) > 0 {
-    $min: nth($list, 1); // Start with the first element as the smallest
-    
+    $min: nth($list, 1);
+
     @each $item in $list {
-      @if $item < $min { // Compare the current item with the smallest
+      @if $item < $min {
         $min: $item;
       }
     }
 
-    $sorted-list: append($sorted-list, $min, comma); // Add smallest to sorted list
-    $list: remove($list, index($list, $min)); // Remove smallest from original list
+    $sorted-list: append($sorted-list, $min, comma);
+    $list: list-remove($list, index($list, $min));
   }
 
   @return $sorted-list;
