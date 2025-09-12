@@ -1,0 +1,24 @@
+$list_to_sort: bob anna sylvain john ludo colin patrick;
+
+@function sort-list($list) {
+  $sorted-list: (); // Initialize an empty list
+
+  @while length($list) > 0 {
+    $min: nth($list, 1); // Start with the first element as the smallest
+    
+    @each $item in $list {
+      @if $item < $min { // Compare the current item with the smallest
+        $min: $item;
+      }
+    }
+
+    $sorted-list: append($sorted-list, $min, comma); // Add smallest to sorted list
+    $list: remove($list, index($list, $min)); // Remove smallest from original list
+  }
+
+  @return $sorted-list;
+}
+
+$list_sorted: sort-list($list_to_sort);
+
+@debug $list_sorted;
